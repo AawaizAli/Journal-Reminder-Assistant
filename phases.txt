@@ -1,0 +1,87 @@
+🔶 Phase 1: Voice-to-Text (Speech Recognition)
+
+🎯 Goal: Convert Urdu + English speech to accurate text using Whisper.
+📚 Study
+Learn how speech recognition works (brief theory).
+Whisper:
+OpenAI Whisper GitHub
+How to use it with audio files & microphone input.
+Basics of using pyaudio or sounddevice for real-time recording.
+🔧 Implementation
+Record audio from mic.
+Use Whisper to transcribe Urdu and English speech.
+Test with:
+“Aaj mera mood acha tha.”
+“Remind me to drink water at 10 PM.”
+🔶 Phase 2: Intent & Sentiment Detection (Basic NLP)
+
+🎯 Goal: Classify whether input is journal entry, reminder, or question. Detect mood (positive/negative/neutral).
+📚 Study
+NLP basics: tokenization, embeddings, classification
+HuggingFace Transformers:
+bert-base-multilingual-cased
+How to fine-tune a model or use pre-trained embeddings.
+Urdu Sentiment:
+Use datasets from UrduHack or pre-trained models.
+Sklearn for simple rule-based classifiers or logistic regression.
+🔧 Implementation
+Classify each voice input:
+journal, reminder, or query
+Extract sentiment from journal entries.
+Store type and sentiment as metadata.
+🔶 Phase 3: Time & Date Understanding (Urdu + English Parsing)
+
+🎯 Goal: Parse times from natural text like “raat 10 baje” or “tomorrow at 8.”
+📚 Study
+Regex patterns for Urdu numerals and time phrases.
+Libraries:
+dateparser
+Duckling (Facebook’s NLP date parser) — optional but powerful
+Read examples of time expressions in English and Urdu.
+🔧 Implementation
+Parse:
+“raat 9 baje”, “subha 7 baje”, “kal shaam”
+“remind me at 5 PM”
+Convert to datetime objects.
+Add parsed reminder time to metadata.
+🔶 Phase 4: Reminder Scheduling & Notification
+
+🎯 Goal: Schedule reminders and trigger them with a voice notification.
+📚 Study
+APScheduler:
+APScheduler docs
+Schedule jobs with delays or specific times
+Text-to-Speech (TTS):
+gTTS for Urdu + English
+pyttsx3 for local English TTS
+Optional: Try Bark for expressive output.
+🔧 Implementation
+On detecting a reminder:
+Store it with parsed time
+Schedule a job to speak the reminder using TTS
+Example: “Kal 9 baje mujhe dawai yaad dilao”
+🔶 Phase 5: Journal Logging & Summary Generator
+
+🎯 Goal: Save entries daily and summarize mood trends over time.
+📚 Study
+JSON / SQLite basics
+Read on simple summarization techniques
+Frequency-based summaries
+Sentiment trend graphs
+🔧 Implementation
+Save entries by date in JSON or SQLite:
+Type, raw text, timestamp, sentiment
+Weekly summaries:
+“This week you were mostly feeling low”
+Optional: sentiment chart using matplotlib
+🔶 Phase 6: Optional UI (CLI / Streamlit)
+
+🎯 Goal: Add a simple CLI or visual interface.
+📚 Study
+Streamlit for rapid dashboards
+TUI libraries (e.g., textual) if you prefer terminal UI
+🔧 Implementation
+Streamlit App:
+Record voice
+Show detected intent, sentiment, reminders
+Weekly mood summary

@@ -1,0 +1,191 @@
+Phase 1: Understanding & Building the Foundations for the Urdu+English Voice-Based Journal & Reminder Assistant
+Study Material for Phase 1
+
+This phase will focus on grasping the fundamentals required to implement the journal and reminder assistant. It includes voice processing, natural language understanding (NLU), date/time extraction, and basic reminder functionalities. The following topics will be covered:
+
+1. Speech Recognition (Voice Input)
+Study Material:
+
+Overview of Speech Recognition:
+Understand how speech recognition systems convert spoken language into text. Look into how various systems process voice signals and identify the words spoken.
+Key Concepts:
+Acoustic Model, Language Model, and Decoder.
+Signal Processing in Speech Recognition.
+Common Libraries: SpeechRecognition (Python) and Google Speech-to-Text API.
+Resources:
+
+SpeechRecognition Documentation
+Google Cloud Speech-to-Text API
+Tutorial: Speech Recognition in Python
+Implementation Guide:
+
+Install the SpeechRecognition library in Python:
+pip install SpeechRecognition
+Implement basic speech-to-text conversion using a microphone:
+import speech_recognition as sr
+
+# Initialize recognizer
+recognizer = sr.Recognizer()
+
+with sr.Microphone() as source:
+    print("Listening...")
+    audio = recognizer.listen(source)
+    print("Recognizing...")
+
+    try:
+        text = recognizer.recognize_google(audio, language="en-GB")
+        print("You said: ", text)
+    except sr.UnknownValueError:
+        print("Sorry, I could not understand.")
+    except sr.RequestError:
+        print("Sorry, my speech service is down.")
+2. Natural Language Processing (NLP) with Urdu and English
+Study Material:
+
+Basics of NLP:
+NLP is key for understanding and processing user input. In this case, you need to handle mixed-language input (Urdu + English).
+Key Concepts: Tokenization, Named Entity Recognition (NER), Intent Recognition, and Sentiment Analysis.
+Pre-trained Models: You can leverage models trained on mixed languages such as BERT, spaCy, or Hugging Face Transformers.
+Resources:
+
+spaCy NLP Documentation
+Hugging Face Transformers
+NLTK (Natural Language Toolkit)
+Implementation Guide:
+
+Install spaCy and transformers:
+pip install spacy transformers
+Example: Language detection and basic sentence tokenization using spaCy.
+import spacy
+from spacy.lang.en import English
+from spacy.lang.ur import Urdu
+
+nlp_en = English()
+nlp_ur = Urdu()
+
+text = "How are you? آپ کیسے ہیں؟"
+
+# English Tokenizer
+doc_en = nlp_en(text)
+print([token.text for token in doc_en])
+
+# Urdu Tokenizer
+doc_ur = nlp_ur(text)
+print([token.text for token in doc_ur])
+3. Date/Time Extraction and Parsing
+Study Material:
+
+Date Parsing in NLP:
+Handling date and time extraction from user input is critical for reminders and journaling. This involves using libraries that can parse natural language dates (e.g., "tomorrow", "next week", "in 2 hours").
+Libraries: parsedatetime, dateutil, and duckling.
+Resources:
+
+Parsedatetime Documentation
+dateutil Documentation
+duckling (Hugging Face)
+Implementation Guide:
+
+Use parsedatetime to interpret natural language dates and times:
+pip install parsedatetime
+import parsedatetime
+import datetime
+
+cal = parsedatetime.Calendar()
+time_struct, parse_status = cal.parse("tomorrow at 6pm")
+print("Parsed Date:", datetime.datetime(*time_struct[:6]))
+4. Text-to-Speech (TTS) for Voice Output
+Study Material:
+
+Overview of TTS:
+TTS systems convert text into speech. Key components are text analysis, prosody generation, and speech synthesis.
+Popular Libraries: gTTS (Google Text-to-Speech), pyttsx3.
+Resources:
+
+gTTS Documentation
+pyttsx3 Documentation
+Implementation Guide:
+
+Install gTTS:
+pip install gTTS
+Implement TTS to output reminders:
+from gtts import gTTS
+import os
+
+text = "Reminder: Meeting at 3 PM"
+tts = gTTS(text, lang='en')
+tts.save("reminder.mp3")
+os.system("start reminder.mp3")  # For Windows
+5. Reminder System
+Study Material:
+
+Scheduling Reminders:
+For the reminder feature, you'll need to set and schedule notifications. This involves parsing date and time, storing reminder data, and triggering voice-based reminders at the correct time.
+Key Concepts: Cron Jobs, Task Scheduler, and Backend storage (SQLite/JSON).
+Resources:
+
+APScheduler Library
+Task Scheduler in Python
+Implementation Guide:
+
+Use APScheduler to schedule reminders:
+pip install apscheduler
+from apscheduler.schedulers.background import BackgroundScheduler
+import time
+
+def reminder_job():
+    print("Time to take your medicine!")
+    # Add Text-to-Speech or other alert system here
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(reminder_job, 'interval', minutes=1)
+scheduler.start()
+
+try:
+    while True:
+        time.sleep(1)
+except (KeyboardInterrupt, SystemExit):
+    scheduler.shutdown()
+6. Implementing Emotion-Aware Summaries
+Study Material:
+
+Emotion Detection in Text:
+Use sentiment analysis models to detect emotions in a journal entry and provide a summary or emotional tone.
+Libraries: Hugging Face transformers, VADER (Valence Aware Dictionary and sEntiment Reasoner).
+Resources:
+
+VADER Sentiment Analysis
+Hugging Face Sentiment Models
+Implementation Guide:
+
+Use VADER for emotion analysis:
+pip install vaderSentiment
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+
+analyzer = SentimentIntensityAnalyzer()
+text = "I had a great day today!"
+sentiment = analyzer.polarity_scores(text)
+print(sentiment)
+7. Handling Mixed-Language Input (Urdu+English)
+Study Material:
+
+Code-switching:
+Code-switching is when speakers switch between languages within a conversation. Handling this in NLP requires models capable of dealing with mixed-language sentences.
+Multilingual Models: BERT-based models (e.g., mBERT, XLM-R).
+Resources:
+
+Multilingual BERT Documentation
+8. Integration of Everything (Voice Input, NLP, TTS, Scheduling)
+After understanding the components above, integrate them into a full application:
+
+Speech Recognition: Take input from the user.
+NLP Processing: Identify intents, entities, and extract relevant information (date, time, mood).
+Emotion-Aware Summaries: Analyze the user's mood based on input.
+Reminder Scheduling: Store and schedule reminders using APScheduler.
+Text-to-Speech (TTS): Notify the user via voice when a reminder is triggered.
+Summary for Phase 1:
+Complete study of speech recognition and NLP.
+Learn how to handle date/time extraction and scheduling.
+Implement basic speech-to-text and text-to-speech functionalities.
+Implement basic reminder and journal entry systems.
+Handle mixed-language inputs effectively.
+By the end of this phase, you'll have the essential skills to build a working prototype of the journal and reminder assistant.
